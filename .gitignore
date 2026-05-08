@@ -1,0 +1,15 @@
+# Firebase
+backend/serviceAccountKey.json
+
+# Python
+backend/__pycache__/
+backend/*.pyc
+backend/instance/
+backend/*.db
+
+# Entorno
+backend/.env
+
+# Angular (para después)
+frontend/node_modules/
+frontend/dist/
