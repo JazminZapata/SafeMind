@@ -27,4 +27,5 @@ export class TheaterService {
   delete(id: number) {
     return this.http.delete<Theater>(`${environment.url_backend}/theaters/${id}`);
   }
+  
 }

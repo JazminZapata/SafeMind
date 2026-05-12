@@ -18,14 +18,15 @@
                                 <th>Ubicación</th>
                                 <th>Capacidad</th>
                                 <th>Opciones</th>
-                            </tr>
 
+                                
+                            </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let theater of theaters">
-                                <td>{{theater.id}}</td>
-                                <td>{{theater.location}}</td>
-                                <td>{{theater.capacity}}</td>
+                                <td>{{Theaters.id}}</td>
+                                <td>{{Theater.location}}</td>
+                                <td>{{Theater.capacity}}</td>
                                 <td>
                                     <button class="btn btn-info btn-sm mr-2">Ver</button>
                                     <button class="btn btn-warning btn-sm mr-2">Editar</button>
@@ -38,3 +39,4 @@
         </div>
     </div>
 </div>
+ <!-- El ngFor es un cilo for - La vista se trae una variable del controlador y esta se comunica con el modelo Patron-Modelo-vISTA-Controlador -->

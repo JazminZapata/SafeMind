@@ -9,18 +9,23 @@ import Swal from 'sweetalert2';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  theaters : Theater [] = [];
 
+  theaters: Theater[] = [];
 
-  constructor( private service: TheaterService) { }
+  //Inyeccion de dependencias
+  constructor(private service:TheaterService) { }
 
+  //Las interfaces ayudan con la herencia multiple - dice que se tiene que hacer al iniciar el componente
+  //Se necesita de herencia por que se va a plicar un componente generico 
+
+  //Funcion estilo Poliformismo - multiples formas de hacer algo
   ngOnInit(): void {
-
-   this.service.list().subscribe(data=>{
-    this.theaters=data;
+    this.service.list().subscribe(data => {
+      this.theaters = data;
     });
   }
-delete(id: number) {
+
+ delete(id: number) {
     console.log("Delete theater with id:", id);
     Swal.fire({
       title: 'Eliminar',

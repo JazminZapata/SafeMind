@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@ng-bootstrap/ng-bootstrap": "^20.0.0",
+    "firebase": "^12.13.0",
+    "ngx-clipboard": "^16.0.0"
+  }
+}

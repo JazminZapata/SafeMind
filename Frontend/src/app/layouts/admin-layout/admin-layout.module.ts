@@ -7,13 +7,11 @@ import { ClipboardModule } from 'ngx-clipboard';
 
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
-import { ChartsComponent } from 'src/app/pages/charts/charts.component';
 import { IconsComponent } from '../../pages/icons/icons.component';
 import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { OrdersMapComponent } from 'src/app/pages/orders-map/orders-map.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -27,8 +25,6 @@ import { OrdersMapComponent } from 'src/app/pages/orders-map/orders-map.componen
   ],
   declarations: [
     DashboardComponent,
-    ChartsComponent,
-    OrdersMapComponent,
     UserProfileComponent,
     TablesComponent,
     IconsComponent,

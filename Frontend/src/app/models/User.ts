@@ -4,6 +4,4 @@ export class User {
     email:string;
     password:string;
     token?:string;
-    photoURL?: string;
-    provider?: string;
 }

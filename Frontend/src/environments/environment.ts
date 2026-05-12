@@ -6,11 +6,9 @@ import { url } from "inspector";
 
 export const environment = {
   production: false,
-  url_backend : 'http://127.0.0.1:5000',
-  url_ms_security :'https://f2fe41f8-0662-4d7b-8f9e-c4e051483e4c.mock.pstmn.io',
-  url_web_socket: 'http://127.0.0.1:5000',
-  url_mock_charts: 'https://a571fe5a-c44a-42b8-91be-a4f31b91d9e8.mock.pstmn.io',
-  gemini_api_key: 'AIzaSyBj61AcHRtmn6kwbw314vPeNMgCufAzkis'
+  url_backend:'https://44202382-5f5c-43c5-a919-7bc16c69c1ef.mock.pstmn.io',
+  url_ms_security:'https://db0ee2e7-2a77-41be-b95f-cdc534d6fc8e.mock.pstmn.io',
+  url_web_socket:'https://0.0.0.0:5000'
 };
 
 /*
@@ -21,5 +19,3 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
-
-

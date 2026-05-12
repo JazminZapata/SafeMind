@@ -10,23 +10,26 @@ import Swal from 'sweetalert2';
   templateUrl: './manage.component.html',
   styleUrls: ['./manage.component.scss']
 })
-//Constructor: sirve para inyectar dependencias
 export class ManageComponent implements OnInit {
   mode: number; // 1: view, 2: create, 3: update
   theater: Theater;
   theFormGroup: FormGroup; // Policía de formulario
   trySend: boolean;
+  //Constructor: sirve para inyectar dependencias
   constructor(private activatedRoute: ActivatedRoute,
     private theatersService: TheaterService,
     private router: Router,
-    private theFormBuilder: FormBuilder //Definir las reglas
+    private theFormBuilder: FormBuilder //Definir las reglas - Congreso de formularios
   ) {
     this.trySend = false;
     this.theater = { id: 0 };
-    this.configFormGroup()
+    this.configFormGroup()  // Hace cumplir las reglas
   }
 
+  //Metodo que se ejecuta al iniciar el componente para saber que modo se va a usar
   ngOnInit(): void {
+    //A la url tomele una foto y guardela en currentUrl
+    //Desde la ruta se identifica los comportamientos que se van a tener
     const currentUrl = this.activatedRoute.snapshot.url.join('/');
     if (currentUrl.includes('view')) {
       this.mode = 1;
@@ -41,11 +44,13 @@ export class ManageComponent implements OnInit {
     }
 
   }
+  //Metodo donde se definen las reglas ocn el configFormGroup
   configFormGroup() {
     this.theFormGroup = this.theFormBuilder.group({
       // primer elemento del vector, valor por defecto
       // lista, serán las reglas
       id: [0,[]],
+      //Validators: reglas de validacion - primer campo valir por defecto y despues una lista con las reglas
       capacity: [0, [Validators.required, Validators.min(1), Validators.max(100)]],
       location: ['', [Validators.required, Validators.minLength(2)]]
     })
@@ -57,10 +62,12 @@ export class ManageComponent implements OnInit {
   }
 
   getTheater(id: number) {
+    //Va al backend por los datos a cargar 
     this.theatersService.view(id).subscribe({
       next: (response) => {
         this.theater = response;
 
+        //Poner los valores en el formulario o vista 
         this.theFormGroup.patchValue({
           id: this.theater.id,
           capacity: this.theater.capacity,

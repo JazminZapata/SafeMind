@@ -12,10 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-
-// ✅ Importar el componente de notificaciones
-import { OrderNotificationComponent } from './components/order-notification/order-notification.component';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
 
 
 @NgModule({
@@ -31,8 +28,7 @@ import { OrderNotificationComponent } from './components/order-notification/orde
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent,
-    OrderNotificationComponent  // ✅ Agregar aquí
+    AuthLayoutComponent
   ],
   providers: [
     {

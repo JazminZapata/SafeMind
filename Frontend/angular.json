@@ -31,10 +31,10 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/leaflet/dist/leaflet.css",
               "src/assets/scss/argon.scss"
             ],
             "scripts": [
+              "node_modules/chart.js/dist/Chart.min.js",
               "node_modules/clipboard/dist/clipboard.min.js"
             ]
           },

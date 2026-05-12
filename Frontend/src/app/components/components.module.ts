@@ -5,27 +5,22 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ChatbotComponent } from './chatbot/chatbot.component';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule,
-    FormsModule
+    NgbModule
   ],
   declarations: [
     FooterComponent,
     NavbarComponent,
-    SidebarComponent,
-    ChatbotComponent
+    SidebarComponent
   ],
   exports: [
     FooterComponent,
     NavbarComponent,
-    SidebarComponent,
-    ChatbotComponent
+    SidebarComponent
   ]
 })
 export class ComponentsModule { }
