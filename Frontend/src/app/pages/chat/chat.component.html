@@ -1,0 +1,223 @@
+<!-- Header -->
+<div class="header bg-gradient-primary pb-6 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center">
+        <div class="col">
+          <h1 class="text-white mb-0">Chat de Apoyo</h1>
+          <p class="text-white-50 mb-0">Conecta con profesionales de salud mental</p>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-white" (click)="showNuevaSesion = true">
+            <i class="ni ni-fat-add mr-2"></i>Nueva Sesion
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="container-fluid mt--6">
+  <div class="row">
+    <!-- Lista de Sesiones -->
+    <div class="col-lg-4 col-xl-3">
+      <div class="card shadow" style="height: calc(100vh - 250px);">
+        <div class="card-header bg-transparent">
+          <h3 class="mb-0">Mis Sesiones</h3>
+        </div>
+        <div class="card-body p-0" style="overflow-y: auto;">
+          <div class="list-group list-group-flush">
+            <a *ngFor="let sesion of sesiones"
+               href="javascript:void(0)"
+               class="list-group-item list-group-item-action"
+               [class.active]="sesionActiva?.id === sesion.id"
+               (click)="selectSesion(sesion)">
+              <div class="d-flex align-items-center">
+                <div class="avatar avatar-sm rounded-circle mr-3"
+                     [class.bg-gradient-success]="sesion.estado === 'activa'"
+                     [class.bg-gradient-secondary]="sesion.estado === 'cerrada'">
+                  <i class="ni ni-single-02 text-white"></i>
+                </div>
+                <div class="flex-fill min-width-0">
+                  <h5 class="mb-0 text-truncate">{{ sesion.profesional?.persona?.nombre || 'Profesional' }}</h5>
+                  <small class="text-muted text-truncate d-block">{{ sesion.tema }}</small>
+                </div>
+                <span class="badge ml-2"
+                      [class.badge-success]="sesion.estado === 'activa'"
+                      [class.badge-secondary]="sesion.estado === 'cerrada'">
+                  {{ sesion.estado }}
+                </span>
+              </div>
+            </a>
+          </div>
+          
+          <div class="text-center py-5" *ngIf="sesiones.length === 0">
+            <i class="ni ni-chat-round text-muted" style="font-size: 3rem;"></i>
+            <p class="text-muted mt-3">No tienes sesiones activas</p>
+            <button class="btn btn-primary btn-sm" (click)="showNuevaSesion = true">
+              Iniciar una sesion
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Area de Chat -->
+    <div class="col-lg-8 col-xl-9">
+      <div class="card shadow" style="height: calc(100vh - 250px);">
+        <!-- Header del chat -->
+        <div class="card-header bg-white border-bottom" *ngIf="sesionActiva">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              <div class="avatar avatar-sm rounded-circle bg-gradient-primary mr-3">
+                <i class="ni ni-single-02 text-white"></i>
+              </div>
+              <div>
+                <h5 class="mb-0">{{ sesionActiva.profesional?.persona?.nombre }}</h5>
+                <small class="text-muted">{{ sesionActiva.profesional?.especialidad }}</small>
+              </div>
+            </div>
+            <div>
+              <span class="badge badge-lg"
+                    [class.badge-success]="sesionActiva.estado === 'activa'"
+                    [class.badge-secondary]="sesionActiva.estado === 'cerrada'">
+                {{ sesionActiva.estado === 'activa' ? 'En linea' : 'Sesion cerrada' }}
+              </span>
+              <button class="btn btn-sm btn-outline-danger ml-2" 
+                      *ngIf="sesionActiva.estado === 'activa'"
+                      (click)="cerrarSesion(sesionActiva)">
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mensajes -->
+        <div class="card-body" 
+             #messagesContainer
+             style="overflow-y: auto; flex: 1;"
+             *ngIf="sesionActiva">
+          <div *ngFor="let mensaje of mensajes" 
+               class="d-flex mb-3"
+               [class.justify-content-end]="isOwnMessage(mensaje)">
+            <div class="d-flex" 
+                 [class.flex-row-reverse]="isOwnMessage(mensaje)"
+                 style="max-width: 75%;">
+              <div class="avatar avatar-sm rounded-circle mx-2"
+                   [class.bg-gradient-primary]="!isOwnMessage(mensaje)"
+                   [class.bg-gradient-success]="isOwnMessage(mensaje)">
+                <i class="ni ni-single-02 text-white"></i>
+              </div>
+              <div>
+                <div class="card mb-1"
+                     [class.bg-gradient-primary]="isOwnMessage(mensaje)"
+                     [class.text-white]="isOwnMessage(mensaje)">
+                  <div class="card-body py-2 px-3">
+                    <p class="mb-0">{{ mensaje.contenido }}</p>
+                  </div>
+                </div>
+                <small class="text-muted"
+                       [class.text-right]="isOwnMessage(mensaje)"
+                       [class.d-block]="true">
+                  {{ mensaje.created_at | date:'shortTime' }}
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input de mensaje -->
+        <div class="card-footer bg-white border-top" *ngIf="sesionActiva && sesionActiva.estado === 'activa'">
+          <div class="input-group">
+            <input type="text" 
+                   class="form-control" 
+                   placeholder="Escribe tu mensaje..."
+                   [(ngModel)]="nuevoMensaje"
+                   (keypress)="handleKeyPress($event)">
+            <div class="input-group-append">
+              <button class="btn btn-primary" 
+                      type="button"
+                      [disabled]="!nuevoMensaje.trim()"
+                      (click)="enviarMensaje()">
+                <i class="ni ni-send"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sin sesion seleccionada -->
+        <div class="card-body d-flex align-items-center justify-content-center" *ngIf="!sesionActiva">
+          <div class="text-center">
+            <div class="icon icon-shape bg-gradient-primary text-white rounded-circle shadow mb-4" style="width: 80px; height: 80px;">
+              <i class="ni ni-chat-round" style="font-size: 2rem;"></i>
+            </div>
+            <h3>Selecciona una sesion</h3>
+            <p class="text-muted">Elige una sesion existente o inicia una nueva para comenzar a chatear</p>
+            <button class="btn btn-primary" (click)="showNuevaSesion = true">
+              <i class="ni ni-fat-add mr-2"></i>Nueva Sesion
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Nueva Sesion -->
+<div class="modal fade" 
+     [class.show]="showNuevaSesion" 
+     [style.display]="showNuevaSesion ? 'block' : 'none'"
+     tabindex="-1"
+     role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nueva Sesion de Apoyo</h5>
+        <button type="button" class="close" (click)="showNuevaSesion = false">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Selecciona un profesional</label>
+          <div class="list-group">
+            <a *ngFor="let profesional of profesionales"
+               href="javascript:void(0)"
+               class="list-group-item list-group-item-action"
+               [class.active]="profesionalSeleccionado === profesional.id"
+               (click)="profesionalSeleccionado = profesional.id">
+              <div class="d-flex align-items-center">
+                <div class="avatar avatar-sm rounded-circle bg-gradient-primary mr-3">
+                  <i class="ni ni-single-02 text-white"></i>
+                </div>
+                <div>
+                  <h5 class="mb-0">{{ profesional.persona?.nombre }}</h5>
+                  <small>{{ profesional.especialidad }}</small>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Tema de la sesion (opcional)</label>
+          <input type="text" 
+                 class="form-control" 
+                 placeholder="Ej: Manejo del estres, ansiedad, etc."
+                 [(ngModel)]="temaSesion">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="showNuevaSesion = false">Cancelar</button>
+        <button type="button" 
+                class="btn btn-primary" 
+                [disabled]="!profesionalSeleccionado || isLoading"
+                (click)="crearNuevaSesion()">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm mr-2"></span>
+          Iniciar Sesion
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showNuevaSesion"></div>

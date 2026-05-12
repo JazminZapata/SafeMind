@@ -1,25 +1,34 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+<!-- Header -->
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
     <div class="header-body">
-      <!-- Card stats -->
+      <!-- Greeting -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <h1 class="text-white mb-0">Hola, {{ userName }}</h1>
+          <p class="text-white-50">Bienvenido a SafeMind. Tu bienestar es nuestra prioridad.</p>
+        </div>
+      </div>
+      
+      <!-- Stats Cards -->
       <div class="row">
         <div class="col-xl-3 col-lg-6">
           <div class="card card-stats mb-4 mb-xl-0">
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Traffic</h5>
-                  <span class="h2 font-weight-bold mb-0">350,897</span>
+                  <h5 class="card-title text-uppercase text-muted mb-0">Sesiones Activas</h5>
+                  <span class="h2 font-weight-bold mb-0">{{ stats.sesionesActivas }}</span>
                 </div>
                 <div class="col-auto">
-                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                    <i class="fas fa-chart-bar"></i>
+                  <div class="icon icon-shape bg-success text-white rounded-circle shadow">
+                    <i class="ni ni-chat-round"></i>
                   </div>
                 </div>
               </div>
               <p class="mt-3 mb-0 text-muted text-sm">
-                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                <span class="text-nowrap">Since last month</span>
+                <span class="text-success mr-2"><i class="ni ni-check-bold"></i></span>
+                <span class="text-nowrap">Chats en curso</span>
               </p>
             </div>
           </div>
@@ -29,60 +38,60 @@
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
-                  <span class="h2 font-weight-bold mb-0">2,356</span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                    <i class="fas fa-chart-pie"></i>
-                  </div>
-                </div>
-              </div>
-              <p class="mt-3 mb-0 text-muted text-sm">
-                <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 3.48%</span>
-                <span class="text-nowrap">Since last week</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
-                  <span class="h2 font-weight-bold mb-0">924</span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                    <i class="fas fa-users"></i>
-                  </div>
-                </div>
-              </div>
-              <p class="mt-3 mb-0 text-muted text-sm">
-                <span class="text-warning mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                <span class="text-nowrap">Since yesterday</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
-                  <span class="h2 font-weight-bold mb-0">49,65%</span>
+                  <h5 class="card-title text-uppercase text-muted mb-0">Sesiones Totales</h5>
+                  <span class="h2 font-weight-bold mb-0">{{ stats.sesionesTotales }}</span>
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                    <i class="fas fa-percent"></i>
+                    <i class="ni ni-collection"></i>
                   </div>
                 </div>
               </div>
               <p class="mt-3 mb-0 text-muted text-sm">
-                <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                <span class="text-nowrap">Since last month</span>
+                <span class="text-info mr-2"><i class="ni ni-folder-17"></i></span>
+                <span class="text-nowrap">Historico completo</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Actividades Hoy</h5>
+                  <span class="h2 font-weight-bold mb-0">{{ stats.actividadesHoy }}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                    <i class="ni ni-calendar-grid-58"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                <span class="text-warning mr-2"><i class="ni ni-time-alarm"></i></span>
+                <span class="text-nowrap">En tu horario</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Estado de Animo</h5>
+                  <span class="h2 font-weight-bold mb-0">{{ stats.estadoAnimo }}</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-pink text-white rounded-circle shadow">
+                    <i class="ni ni-favourite-28"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                <span class="text-success mr-2"><i class="ni ni-bold-up"></i></span>
+                <span class="text-nowrap">Registro semanal</span>
               </p>
             </div>
           </div>
@@ -91,277 +100,207 @@
     </div>
   </div>
 </div>
+
+<!-- Main Content -->
 <div class="container-fluid mt--7">
   <div class="row">
+    <!-- Quick Actions -->
     <div class="col-xl-8 mb-5 mb-xl-0">
-      <div class="card bg-gradient-default shadow">
-        <div class="card-header bg-transparent">
-          <div class="row align-items-center">
-            <div class="col">
-              <h6 class="text-uppercase text-light ls-1 mb-1">Overview</h6>
-              <h2 class="text-white mb-0">Sales value</h2>
-            </div>
-            <div class="col">
-              <ul class="nav nav-pills justify-content-end">
-                <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales"  (click)="data=datasets[0];updateOptions()">
-                  <a href="javascript:void(0)" class="nav-link py-2 px-3" [ngClass]="{'active':clicked===true}" data-toggle="tab" (click)="clicked=true;clicked1=false">
-                    <span class="d-none d-md-block">Month</span>
-                    <span class="d-md-none">M</span>
-                  </a>
-                </li>
-                <li class="nav-item" data-toggle="chart" data-target="#chart-sales"  (click)="data=datasets[1];updateOptions()">
-                  <a href="javascript:void(0)" class="nav-link py-2 px-3" [ngClass]="{'active':clicked1===true}" data-toggle="tab" (click)="clicked=false;clicked1=true">
-                    <span class="d-none d-md-block">Week</span>
-                    <span class="d-md-none">W</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <!-- Chart -->
-          <div class="chart">
-            <!-- Chart wrapper -->
-            <canvas id="chart-sales" class="chart-canvas"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-4">
       <div class="card shadow">
         <div class="card-header bg-transparent">
           <div class="row align-items-center">
             <div class="col">
-              <h6 class="text-uppercase text-muted ls-1 mb-1">Performance</h6>
-              <h2 class="mb-0">Total orders</h2>
+              <h3 class="mb-0">Acciones Rapidas</h3>
             </div>
           </div>
         </div>
         <div class="card-body">
-          <!-- Chart -->
-          <div class="chart">
-            <canvas id="chart-orders" class="chart-canvas"></canvas>
+          <div class="row">
+            <!-- Iniciar Chat -->
+            <div class="col-md-4 mb-3">
+              <a [routerLink]="['/chat']" class="card bg-gradient-success text-white h-100 text-decoration-none">
+                <div class="card-body text-center py-4">
+                  <div class="icon icon-shape bg-white text-success rounded-circle shadow mb-3">
+                    <i class="ni ni-chat-round"></i>
+                  </div>
+                  <h5 class="text-white mb-1">Iniciar Chat</h5>
+                  <p class="text-white-50 mb-0 small">Habla con un profesional</p>
+                </div>
+              </a>
+            </div>
+            <!-- Ver Horario -->
+            <div class="col-md-4 mb-3">
+              <a [routerLink]="['/horario']" class="card bg-gradient-info text-white h-100 text-decoration-none">
+                <div class="card-body text-center py-4">
+                  <div class="icon icon-shape bg-white text-info rounded-circle shadow mb-3">
+                    <i class="ni ni-calendar-grid-58"></i>
+                  </div>
+                  <h5 class="text-white mb-1">Mi Horario</h5>
+                  <p class="text-white-50 mb-0 small">Organiza tu semana</p>
+                </div>
+              </a>
+            </div>
+            <!-- Buscar Profesional -->
+            <div class="col-md-4 mb-3">
+              <a [routerLink]="['/profesionales']" class="card bg-gradient-purple text-white h-100 text-decoration-none">
+                <div class="card-body text-center py-4">
+                  <div class="icon icon-shape bg-white text-purple rounded-circle shadow mb-3">
+                    <i class="ni ni-badge"></i>
+                  </div>
+                  <h5 class="text-white mb-1">Profesionales</h5>
+                  <p class="text-white-50 mb-0 small">Encuentra apoyo</p>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="row mt-5">
-    <div class="col-xl-8 mb-5 mb-xl-0">
-      <div class="card shadow">
+
+      <!-- Proximas Actividades -->
+      <div class="card shadow mt-4">
         <div class="card-header border-0">
           <div class="row align-items-center">
             <div class="col">
-              <h3 class="mb-0">Page visits</h3>
+              <h3 class="mb-0">Proximas Actividades</h3>
             </div>
             <div class="col text-right">
-              <a href="#!" class="btn btn-sm btn-primary">See all</a>
+              <a [routerLink]="['/horario']" class="btn btn-sm btn-primary">Ver todo</a>
             </div>
           </div>
         </div>
         <div class="table-responsive">
-          <!-- Projects table -->
-          <table class="table align-items-center table-flush">
+          <table class="table align-items-center table-flush" *ngIf="proximasActividades.length > 0">
             <thead class="thead-light">
               <tr>
-                <th scope="col">Page name</th>
-                <th scope="col">Visitors</th>
-                <th scope="col">Unique users</th>
-                <th scope="col">Bounce rate</th>
+                <th scope="col">Actividad</th>
+                <th scope="col">Hora</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Estado</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">
-                  /argon/
-                </th>
+              <tr *ngFor="let actividad of proximasActividades">
+                <th scope="row">{{ actividad.titulo }}</th>
+                <td>{{ actividad.hora }}</td>
                 <td>
-                  4,569
+                  <span class="badge" [ngClass]="{
+                    'badge-primary': actividad.tipo === 'clase',
+                    'badge-success': actividad.tipo === 'estudio',
+                    'badge-warning': actividad.tipo === 'descanso',
+                    'badge-info': actividad.tipo === 'otro'
+                  }">{{ actividad.tipo }}</span>
                 </td>
                 <td>
-                  340
-                </td>
-                <td>
-                  <i class="fas fa-arrow-up text-success mr-3"></i> 46,53%
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  /argon/index.html
-                </th>
-                <td>
-                  3,985
-                </td>
-                <td>
-                  319
-                </td>
-                <td>
-                  <i class="fas fa-arrow-down text-warning mr-3"></i> 46,53%
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  /argon/charts.html
-                </th>
-                <td>
-                  3,513
-                </td>
-                <td>
-                  294
-                </td>
-                <td>
-                  <i class="fas fa-arrow-down text-warning mr-3"></i> 36,49%
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  /argon/tables.html
-                </th>
-                <td>
-                  2,050
-                </td>
-                <td>
-                  147
-                </td>
-                <td>
-                  <i class="fas fa-arrow-up text-success mr-3"></i> 50,87%
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  /argon/profile.html
-                </th>
-                <td>
-                  1,795
-                </td>
-                <td>
-                  190
-                </td>
-                <td>
-                  <i class="fas fa-arrow-down text-danger mr-3"></i> 46,53%
+                  <span class="badge badge-dot mr-4">
+                    <i class="bg-success"></i>
+                    <span class="status">Pendiente</span>
+                  </span>
                 </td>
               </tr>
             </tbody>
           </table>
+          <div class="text-center py-4" *ngIf="proximasActividades.length === 0">
+            <i class="ni ni-calendar-grid-58 text-muted" style="font-size: 2rem;"></i>
+            <p class="text-muted mt-2">No tienes actividades programadas para hoy</p>
+            <a [routerLink]="['/horario']" class="btn btn-sm btn-primary">Agregar actividad</a>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Sidebar -->
     <div class="col-xl-4">
+      <!-- Tips del dia -->
+      <div class="card shadow mb-4">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Tip del Dia</h3>
+            </div>
+            <div class="col-auto">
+              <i class="ni ni-bulb-61 text-warning"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="mb-0">{{ tipDelDia }}</p>
+        </div>
+      </div>
+
+      <!-- Sesiones Recientes -->
       <div class="card shadow">
         <div class="card-header border-0">
           <div class="row align-items-center">
             <div class="col">
-              <h3 class="mb-0">Social traffic</h3>
+              <h3 class="mb-0">Sesiones Recientes</h3>
             </div>
             <div class="col text-right">
-              <a href="#!" class="btn btn-sm btn-primary">See all</a>
+              <a [routerLink]="['/sesiones']" class="btn btn-sm btn-primary">Ver todas</a>
             </div>
           </div>
         </div>
-        <div class="table-responsive">
-          <!-- Projects table -->
-          <table class="table align-items-center table-flush">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">Referral</th>
-                <th scope="col">Visitors</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">
-                  Facebook
-                </th>
-                <td>
-                  1,480
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">60%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  Facebook
-                </th>
-                <td>
-                  5,480
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">70%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  Google
-                </th>
-                <td>
-                  4,807
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">80%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-primary" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  Instagram
-                </th>
-                <td>
-                  3,678
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">75%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  twitter
-                </th>
-                <td>
-                  2,645
-                </td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <span class="mr-2">30%</span>
-                    <div>
-                      <div class="progress">
-                        <div class="progress-bar bg-gradient-warning" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="card-body p-0">
+          <div class="list-group list-group-flush" *ngIf="sesionesRecientes.length > 0">
+            <a *ngFor="let sesion of sesionesRecientes" 
+               [routerLink]="['/chat']" 
+               [queryParams]="{sesion: sesion.id}"
+               class="list-group-item list-group-item-action">
+              <div class="d-flex align-items-center">
+                <div class="avatar avatar-sm rounded-circle bg-gradient-primary mr-3">
+                  <i class="ni ni-single-02 text-white"></i>
+                </div>
+                <div class="flex-fill">
+                  <h5 class="mb-0">{{ sesion.tema || 'Sesion de apoyo' }}</h5>
+                  <small class="text-muted">{{ sesion.created_at | date:'short' }}</small>
+                </div>
+                <span class="badge" [ngClass]="{
+                  'badge-success': sesion.estado === 'activa',
+                  'badge-secondary': sesion.estado === 'cerrada'
+                }">{{ sesion.estado }}</span>
+              </div>
+            </a>
+          </div>
+          <div class="text-center py-4" *ngIf="sesionesRecientes.length === 0">
+            <i class="ni ni-chat-round text-muted" style="font-size: 2rem;"></i>
+            <p class="text-muted mt-2">No tienes sesiones recientes</p>
+            <a [routerLink]="['/profesionales']" class="btn btn-sm btn-primary">Iniciar una sesion</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recursos -->
+      <div class="card shadow mt-4">
+        <div class="card-header bg-transparent">
+          <h3 class="mb-0">Recursos de Ayuda</h3>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow mr-3">
+              <i class="ni ni-headphones"></i>
+            </div>
+            <div>
+              <h5 class="mb-0">Linea de Crisis</h5>
+              <small class="text-muted">Disponible 24/7</small>
+            </div>
+          </div>
+          <div class="d-flex align-items-center mb-3">
+            <div class="icon icon-shape bg-gradient-success text-white rounded-circle shadow mr-3">
+              <i class="ni ni-books"></i>
+            </div>
+            <div>
+              <h5 class="mb-0">Guias de Bienestar</h5>
+              <small class="text-muted">Articulos y recursos</small>
+            </div>
+          </div>
+          <div class="d-flex align-items-center">
+            <div class="icon icon-shape bg-gradient-warning text-white rounded-circle shadow mr-3">
+              <i class="ni ni-spaceship"></i>
+            </div>
+            <div>
+              <h5 class="mb-0">Ejercicios de Relajacion</h5>
+              <small class="text-muted">Tecnicas practicas</small>
+            </div>
+          </div>
         </div>
       </div>
     </div>
