@@ -6,9 +6,11 @@ import { url } from "inspector";
 
 export const environment = {
   production: false,
-  url_backend:'https://44202382-5f5c-43c5-a919-7bc16c69c1ef.mock.pstmn.io',
-  url_ms_security:'https://db0ee2e7-2a77-41be-b95f-cdc534d6fc8e.mock.pstmn.io',
-  url_web_socket:'https://0.0.0.0:5000'
+  url_backend: 'http://127.0.0.1:5000',
+  url_ms_security: 'http://127.0.0.1:5000',
+  url_web_socket: 'http://127.0.0.1:5000',
+  gemini_api_key: '',
+  url_mock_charts: ''
 };
 
 /*
