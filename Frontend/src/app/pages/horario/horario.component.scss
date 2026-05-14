@@ -1,0 +1,39 @@
+.border-2 {
+  border-width: 2px !important;
+}
+
+.modal.show {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.card-body {
+  scrollbar-width: thin;
+  scrollbar-color: #e9ecef transparent;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #e9ecef;
+    border-radius: 3px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .col-xl {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 767px) {
+  .col-xl {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

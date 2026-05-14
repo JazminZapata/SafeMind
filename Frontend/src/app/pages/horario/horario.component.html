@@ -1,0 +1,188 @@
+<!-- Header -->
+<div class="header bg-gradient-info pb-6 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center">
+        <div class="col">
+          <h1 class="text-white mb-0">Mi Horario</h1>
+          <p class="text-white-50 mb-0">Organiza tu semana academica</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="container-fluid mt--6">
+  <!-- Leyenda -->
+  <div class="card shadow mb-4">
+    <div class="card-body py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-center">
+        <span class="mr-4 d-flex align-items-center" *ngFor="let tipo of tiposActividad">
+          <span class="badge badge-{{ tipo.color }} mr-2">{{ tipo.label }}</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendario Semanal -->
+  <div class="row">
+    <div class="col-lg-6 col-xl" *ngFor="let dia of diasSemana">
+      <div class="card shadow mb-4" [class.border-primary]="isHoy(dia.key)" [class.border-2]="isHoy(dia.key)">
+        <div class="card-header" 
+             [class.bg-gradient-primary]="isHoy(dia.key)"
+             [class.text-white]="isHoy(dia.key)">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0" [class.text-white]="isHoy(dia.key)">
+              {{ dia.nombre }}
+              <span *ngIf="isHoy(dia.key)" class="badge badge-white text-primary ml-2">Hoy</span>
+            </h5>
+            <button class="btn btn-sm"
+                    [class.btn-white]="isHoy(dia.key)"
+                    [class.btn-primary]="!isHoy(dia.key)"
+                    (click)="abrirModalAgregar(dia.key)">
+              <i class="ni ni-fat-add"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body p-0" style="min-height: 200px; max-height: 400px; overflow-y: auto;">
+          <div class="list-group list-group-flush" *ngIf="dia.actividades.length > 0">
+            <div *ngFor="let actividad of dia.actividades; let i = index" 
+                 class="list-group-item list-group-item-action px-3 py-2">
+              <div class="d-flex justify-content-between align-items-start">
+                <div class="flex-fill">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="badge badge-{{ getTipoColor(actividad.tipo) }} mr-2">
+                      {{ actividad.hora }}
+                    </span>
+                    <small class="text-muted text-capitalize">{{ actividad.tipo }}</small>
+                  </div>
+                  <h6 class="mb-0">{{ actividad.titulo }}</h6>
+                </div>
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-outline-primary btn-sm" 
+                          (click)="abrirModalEditar(dia.key, i, actividad)">
+                    <i class="ni ni-ruler-pencil"></i>
+                  </button>
+                  <button class="btn btn-outline-danger btn-sm" 
+                          (click)="eliminarActividad(dia.key, i)">
+                    <i class="ni ni-fat-remove"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center py-4" *ngIf="dia.actividades.length === 0">
+            <i class="ni ni-calendar-grid-58 text-muted" style="font-size: 2rem;"></i>
+            <p class="text-muted small mt-2 mb-0">Sin actividades</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tips de organizacion -->
+  <div class="card shadow mt-4">
+    <div class="card-header bg-transparent">
+      <h3 class="mb-0">Tips de Organizacion</h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <div class="d-flex">
+            <div class="icon icon-shape bg-gradient-success text-white rounded-circle shadow mr-3">
+              <i class="ni ni-check-bold"></i>
+            </div>
+            <div>
+              <h5 class="mb-1">Bloques de estudio</h5>
+              <p class="text-muted small mb-0">Estudia en bloques de 25-50 minutos con descansos cortos.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="d-flex">
+            <div class="icon icon-shape bg-gradient-warning text-white rounded-circle shadow mr-3">
+              <i class="ni ni-time-alarm"></i>
+            </div>
+            <div>
+              <h5 class="mb-1">Prioriza tareas</h5>
+              <p class="text-muted small mb-0">Comienza con las tareas mas dificiles cuando tengas mas energia.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="d-flex">
+            <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow mr-3">
+              <i class="ni ni-satisfied"></i>
+            </div>
+            <div>
+              <h5 class="mb-1">Incluye descansos</h5>
+              <p class="text-muted small mb-0">El descanso es esencial para mantener la productividad.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Agregar/Editar Actividad -->
+<div class="modal fade" 
+     [class.show]="showModal" 
+     [style.display]="showModal ? 'block' : 'none'"
+     tabindex="-1"
+     role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ isEditing ? 'Editar' : 'Agregar' }} Actividad - {{ getDiaNombre(diaSeleccionado) }}
+        </h5>
+        <button type="button" class="close" (click)="cerrarModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Titulo de la actividad</label>
+          <input type="text" 
+                 class="form-control" 
+                 placeholder="Ej: Calculo II, Estudio grupal..."
+                 [(ngModel)]="nuevaActividad.titulo">
+        </div>
+        <div class="form-group">
+          <label>Hora</label>
+          <input type="time" 
+                 class="form-control"
+                 [(ngModel)]="nuevaActividad.hora">
+        </div>
+        <div class="form-group">
+          <label>Tipo de actividad</label>
+          <div class="btn-group d-flex" role="group">
+            <button *ngFor="let tipo of tiposActividad"
+                    type="button" 
+                    class="btn flex-fill"
+                    [class.btn-primary]="nuevaActividad.tipo === tipo.value && tipo.value === 'clase'"
+                    [class.btn-success]="nuevaActividad.tipo === tipo.value && tipo.value === 'estudio'"
+                    [class.btn-warning]="nuevaActividad.tipo === tipo.value && tipo.value === 'descanso'"
+                    [class.btn-info]="nuevaActividad.tipo === tipo.value && tipo.value === 'otro'"
+                    [class.btn-outline-secondary]="nuevaActividad.tipo !== tipo.value"
+                    (click)="nuevaActividad.tipo = tipo.value">
+              {{ tipo.label }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+        <button type="button" 
+                class="btn btn-primary" 
+                [disabled]="!nuevaActividad.titulo || !nuevaActividad.hora"
+                (click)="guardarActividad()">
+          {{ isEditing ? 'Guardar cambios' : 'Agregar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="showModal"></div>

@@ -1,0 +1,153 @@
+<!-- Header -->
+<div class="header bg-gradient-purple pb-6 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center">
+        <div class="col">
+          <h1 class="text-white mb-0">Profesionales</h1>
+          <p class="text-white-50 mb-0">Encuentra el apoyo que necesitas</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="container-fluid mt--6">
+  <!-- Filtros -->
+  <div class="card shadow mb-4">
+    <div class="card-body py-3">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+            </div>
+            <input type="text" 
+                   class="form-control" 
+                   placeholder="Buscar por especialidad..."
+                   [(ngModel)]="filtroEspecialidad">
+          </div>
+        </div>
+        <div class="col-md-6 text-md-right mt-3 mt-md-0">
+          <span class="text-muted">
+            Mostrando {{ profesionalesFiltrados.length }} de {{ profesionales.length }} profesionales
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de Profesionales -->
+  <div class="row" *ngIf="!isLoading">
+    <div class="col-lg-6 col-xl-4" *ngFor="let profesional of profesionalesFiltrados">
+      <div class="card shadow mb-4">
+        <div class="card-body">
+          <!-- Header del profesional -->
+          <div class="d-flex align-items-center mb-3">
+            <div class="avatar avatar-lg rounded-circle bg-gradient-primary mr-3">
+              <img *ngIf="profesional.persona?.foto_url" 
+                   [src]="profesional.persona?.foto_url" 
+                   alt="Foto"
+                   class="rounded-circle"
+                   style="width: 100%; height: 100%; object-fit: cover;">
+              <i *ngIf="!profesional.persona?.foto_url" class="ni ni-single-02 text-white" style="font-size: 1.5rem;"></i>
+            </div>
+            <div>
+              <h4 class="mb-0">{{ profesional.persona?.nombre }}</h4>
+              <span class="badge badge-primary">{{ profesional.especialidad }}</span>
+            </div>
+          </div>
+
+          <!-- Informacion de contacto -->
+          <div class="mb-3">
+            <p class="mb-1 text-sm">
+              <i class="ni ni-email-83 text-muted mr-2"></i>
+              {{ profesional.persona?.correo }}
+            </p>
+            <p class="mb-0 text-sm" *ngIf="profesional.persona?.telefono">
+              <i class="ni ni-mobile-button text-muted mr-2"></i>
+              {{ profesional.persona?.telefono }}
+            </p>
+          </div>
+
+          <!-- Disponibilidad -->
+          <div class="mb-3">
+            <h6 class="text-muted text-uppercase text-xs mb-2">Disponibilidad</h6>
+            <div class="d-flex flex-wrap">
+              <span *ngFor="let disp of getDisponibilidadArray(profesional)" 
+                    class="badge badge-light mr-2 mb-1">
+                <strong>{{ disp.dia }}:</strong> {{ disp.horario }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Acciones -->
+          <div class="d-flex">
+            <button class="btn btn-primary btn-block" (click)="iniciarChat(profesional)">
+              <i class="ni ni-chat-round mr-2"></i>Iniciar Chat
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="text-center py-5" *ngIf="isLoading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Cargando...</span>
+    </div>
+    <p class="text-muted mt-3">Cargando profesionales...</p>
+  </div>
+
+  <!-- Sin resultados -->
+  <div class="card shadow" *ngIf="!isLoading && profesionalesFiltrados.length === 0">
+    <div class="card-body text-center py-5">
+      <i class="ni ni-single-02 text-muted" style="font-size: 3rem;"></i>
+      <h3 class="mt-3">No se encontraron profesionales</h3>
+      <p class="text-muted">Intenta con otro filtro de busqueda</p>
+      <button class="btn btn-primary" (click)="filtroEspecialidad = ''">
+        Ver todos
+      </button>
+    </div>
+  </div>
+
+  <!-- Info adicional -->
+  <div class="card shadow mt-4">
+    <div class="card-header bg-transparent">
+      <h3 class="mb-0">Como funciona</h3>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4 mb-3 mb-md-0">
+          <div class="text-center">
+            <div class="icon icon-shape bg-gradient-primary text-white rounded-circle shadow mb-3" style="width: 60px; height: 60px;">
+              <i class="ni ni-zoom-split-in"></i>
+            </div>
+            <h5>1. Busca</h5>
+            <p class="text-muted small">Encuentra un profesional segun tu necesidad</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3 mb-md-0">
+          <div class="text-center">
+            <div class="icon icon-shape bg-gradient-success text-white rounded-circle shadow mb-3" style="width: 60px; height: 60px;">
+              <i class="ni ni-chat-round"></i>
+            </div>
+            <h5>2. Conecta</h5>
+            <p class="text-muted small">Inicia una sesion de chat con el profesional</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="text-center">
+            <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow mb-3" style="width: 60px; height: 60px;">
+              <i class="ni ni-satisfied"></i>
+            </div>
+            <h5>3. Mejora</h5>
+            <p class="text-muted small">Recibe apoyo y herramientas para tu bienestar</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
