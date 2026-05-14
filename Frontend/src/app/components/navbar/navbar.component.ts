@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/models/User';
 import { SecurityService } from 'src/app/services/security.service';
 import { Subscription } from 'rxjs';
-import { WebSocketService } from 'src/app/services/web-socket-service.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,18 +17,18 @@ export class NavbarComponent implements OnInit {
   public location: Location;
   user: User;
   subscription:Subscription;
-  constructor(location: Location,  private element: ElementRef, private router: Router, private securityService:SecurityService, private webSocketService:WebSocketService) {
+  constructor(location: Location,  private element: ElementRef, private router: Router, private securityService:SecurityService) {
     this.location = location;
 
     //conexion de "backend a frontend" via web socket
-    this.webSocketService.setNameEvent("OVL94G");
-    this.webSocketService.callback.subscribe((message) => {
-      console.log("Mensaje recibido en el navbar: ", message);
-    });
-    //Usamos securityService y es como si llamaramos una api a la cual nos vamos a suscribir, data e sla respuesta a la que llega esa api  y si me suscribi va a devolver la varible global user
-    this.subscription = this.securityService.getUser().subscribe(data => {
-      this.user = data;
-    })
+    // this.webSocketService.setNameEvent("OVL94G");
+    // this.webSocketService.callback.subscribe((message) => {
+    //   console.log("Mensaje recibido en el navbar: ", message);
+    // });
+    // //Usamos securityService y es como si llamaramos una api a la cual nos vamos a suscribir, data e sla respuesta a la que llega esa api  y si me suscribi va a devolver la varible global user
+    // this.subscription = this.securityService.getUser().subscribe(data => {
+    //   this.user = data;
+    // })
   }
 
   ngOnInit() {
