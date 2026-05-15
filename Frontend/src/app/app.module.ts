@@ -8,7 +8,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
-
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { AppRoutingModule } from './app.routing';
@@ -24,6 +24,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
     ComponentsModule,
     NgbModule,
     ClipboardModule,
+    NgbTooltipModule,
     RouterModule,
     AppRoutingModule
   ],

@@ -12,20 +12,11 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
     { path: '/dashboard', title: 'Dashboard',  icon: 'ni-tv-2 text-primary', class: '' },
-<<<<<<< HEAD
-    { path: '/icons', title: 'Icons',  icon:'ni-planet text-blue', class: '' },
-    { path: '/maps', title: 'Maps',  icon:'ni-pin-3 text-orange', class: '' },
-    { path: '/user-profile', title: 'User profile',  icon:'ni-single-02 text-yellow', class: '' },
-    { path: '/tables', title: 'Tables',  icon:'ni-bullet-list-67 text-red', class: '' },
-    { path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
-    { path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' }
-=======
     { path: '/chat', title: 'Chat',  icon: 'ni-chat-round text-success', class: '' },
     { path: '/horario', title: 'Mi Horario',  icon: 'ni-calendar-grid-58 text-info', class: '' },
     { path: '/profesionales', title: 'Profesionales',  icon: 'ni-badge text-purple', class: '' },
     { path: '/sesiones', title: 'Mis Sesiones',  icon: 'ni-collection text-orange', class: '' },
     { path: '/user-profile', title: 'Mi Perfil', icon: 'ni-single-02 text-yellow', class: '' }
->>>>>>> safemind-web-app
 ];
 
 @Component({

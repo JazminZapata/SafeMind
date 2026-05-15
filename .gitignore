@@ -10,6 +10,12 @@ backend/*.db
 # Entorno
 backend/.env
 
-# Angular (para después)
-frontend/node_modules/
-frontend/dist/
+# Angular
+Frontend/node_modules/
+Frontend/dist/
+Frontend/.angular/
+
+# General
+node_modules/
+dist/
+.angular/
