@@ -28,22 +28,22 @@ def login():
 def get_personas():
     return jsonify(PersonaController.get_all())
 
-@main_bp.route('/personas/', methods=['GET'])
+@main_bp.route('/personas/<int:id>', methods=['GET'])
 def get_persona(id):
     return jsonify(PersonaController.get_by_id(id))
 
-@main_bp.route('/personas/uid/', methods=['GET'])
+@main_bp.route('/personas/uid/<string:uid>', methods=['GET'])
 def get_persona_by_uid(uid):
     result = PersonaController.get_by_firebase_uid(uid)
     if isinstance(result, tuple):
         return jsonify(result[0]), result[1]
     return jsonify(result)
 
-@main_bp.route('/personas/', methods=['PUT'])
+@main_bp.route('/personas/<int:id>', methods=['PUT'])
 def update_persona(id):
     return jsonify(PersonaController.update(id, request.json))
 
-@main_bp.route('/personas/', methods=['DELETE'])
+@main_bp.route('/personas/<int:id>', methods=['DELETE'])
 def delete_persona(id):
     result, status = PersonaController.delete(id)
     return jsonify(result), status
@@ -56,17 +56,24 @@ def delete_persona(id):
 def get_estudiantes():
     return jsonify(EstudianteController.get_all())
 
-@main_bp.route('/estudiantes/', methods=['GET'])
+@main_bp.route('/estudiantes/<int:id>', methods=['GET'])
 def get_estudiante(id):
     return jsonify(EstudianteController.get_by_id(id))
 
-@main_bp.route('/estudiantes/', methods=['PUT'])
+@main_bp.route('/estudiantes/persona/<int:persona_id>', methods=['GET'])
+def get_estudiante_by_persona(persona_id):
+    """Endpoint nuevo: obtiene el estudiante usando el persona_id"""
+    result = EstudianteController.get_by_persona_id(persona_id)
+    if isinstance(result, tuple):
+        return jsonify(result[0]), result[1]
+    return jsonify(result)
+
+@main_bp.route('/estudiantes/<int:id>', methods=['PUT'])
 def update_estudiante(id):
     return jsonify(EstudianteController.update(id, request.json))
 
-@main_bp.route('/estudiantes//horario', methods=['PUT'])
+@main_bp.route('/estudiantes/<int:id>/horario', methods=['PUT'])
 def update_horario(id):
-    # Body: { "horario": { "lunes": ["8:00 Cálculo"], ... } }
     horario = request.json.get('horario')
     return jsonify(EstudianteController.update_horario(id, horario))
 
@@ -78,17 +85,16 @@ def update_horario(id):
 def get_profesionales():
     return jsonify(ProfesionalController.get_all())
 
-@main_bp.route('/profesionales/', methods=['GET'])
+@main_bp.route('/profesionales/<int:id>', methods=['GET'])
 def get_profesional(id):
     return jsonify(ProfesionalController.get_by_id(id))
 
-@main_bp.route('/profesionales/', methods=['PUT'])
+@main_bp.route('/profesionales/<int:id>', methods=['PUT'])
 def update_profesional(id):
     return jsonify(ProfesionalController.update(id, request.json))
 
-@main_bp.route('/profesionales//disponibilidad', methods=['PUT'])
+@main_bp.route('/profesionales/<int:id>/disponibilidad', methods=['PUT'])
 def update_disponibilidad(id):
-    # Body: { "disponibilidad": { "lunes": "8:00 - 12:00", ... } }
     disponibilidad = request.json.get('disponibilidad')
     return jsonify(ProfesionalController.update_disponibilidad(id, disponibilidad))
 
@@ -100,15 +106,15 @@ def update_disponibilidad(id):
 def get_sesiones():
     return jsonify(SesionController.get_all())
 
-@main_bp.route('/sesiones/', methods=['GET'])
+@main_bp.route('/sesiones/<int:id>', methods=['GET'])
 def get_sesion(id):
     return jsonify(SesionController.get_by_id(id))
 
-@main_bp.route('/sesiones/estudiante/', methods=['GET'])
+@main_bp.route('/sesiones/estudiante/<int:estudiante_id>', methods=['GET'])
 def get_sesiones_estudiante(estudiante_id):
     return jsonify(SesionController.get_by_estudiante(estudiante_id))
 
-@main_bp.route('/sesiones/profesional/', methods=['GET'])
+@main_bp.route('/sesiones/profesional/<int:profesional_id>', methods=['GET'])
 def get_sesiones_profesional(profesional_id):
     return jsonify(SesionController.get_by_profesional(profesional_id))
 
@@ -117,7 +123,7 @@ def create_sesion():
     result, status = SesionController.create(request.json)
     return jsonify(result), status
 
-@main_bp.route('/sesiones//cerrar', methods=['PUT'])
+@main_bp.route('/sesiones/<int:id>/cerrar', methods=['PUT'])
 def cerrar_sesion(id):
     return jsonify(SesionController.cerrar(id))
 
@@ -125,7 +131,7 @@ def cerrar_sesion(id):
 # ─────────────────────────────────────────
 # MENSAJES
 # ─────────────────────────────────────────
-@main_bp.route('/sesiones//mensajes', methods=['GET'])
+@main_bp.route('/sesiones/<int:sesion_id>/mensajes', methods=['GET'])
 def get_mensajes(sesion_id):
     return jsonify(MensajeController.get_by_sesion(sesion_id))
 
@@ -134,7 +140,7 @@ def create_mensaje():
     result, status = MensajeController.create(request.json)
     return jsonify(result), status
 
-@main_bp.route('/mensajes/', methods=['DELETE'])
+@main_bp.route('/mensajes/<int:id>', methods=['DELETE'])
 def delete_mensaje(id):
     result, status = MensajeController.delete(id)
     return jsonify(result), status

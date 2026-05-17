@@ -14,6 +14,14 @@ class EstudianteController:
         return estudiante.to_dict()
 
     @staticmethod
+    def get_by_persona_id(persona_id):
+        """Busca el estudiante usando el id de la tabla personas"""
+        estudiante = Estudiante.query.filter_by(persona_id=persona_id).first()
+        if not estudiante:
+            return {"error": "Estudiante no encontrado"}, 404
+        return estudiante.to_dict()
+
+    @staticmethod
     def update(estudiante_id, data):
         estudiante = Estudiante.query.get_or_404(estudiante_id)
 

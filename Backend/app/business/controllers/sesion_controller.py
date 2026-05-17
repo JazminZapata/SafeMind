@@ -25,8 +25,17 @@ class SesionController:
 
     @staticmethod
     def create(data):
+        from app.business.models.estudiante import Estudiante
+        
+        persona_id = data.get('estudiante_id')
+        
+        # Buscar el estudiante por persona_id
+        estudiante = Estudiante.query.filter_by(persona_id=persona_id).first()
+        if not estudiante:
+            return {"error": "Estudiante no encontrado"}, 404
+
         nueva = Sesion(
-            estudiante_id  = data.get('estudiante_id'),
+            estudiante_id  = estudiante.id,
             profesional_id = data.get('profesional_id'),
             tema           = data.get('tema', ''),
             estado         = 'activa'
