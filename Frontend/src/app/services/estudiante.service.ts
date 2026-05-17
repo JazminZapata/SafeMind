@@ -19,6 +19,11 @@ export class EstudianteService {
     return this.http.get<Estudiante>(`${environment.url_backend}/estudiantes/${id}`);
   }
 
+  /** Obtiene el estudiante usando el id de la tabla personas */
+  getByPersonaId(personaId: number): Observable<Estudiante> {
+    return this.http.get<Estudiante>(`${environment.url_backend}/estudiantes/persona/${personaId}`);
+  }
+
   update(id: number, estudiante: Estudiante): Observable<Estudiante> {
     return this.http.put<Estudiante>(`${environment.url_backend}/estudiantes/${id}`, estudiante);
   }

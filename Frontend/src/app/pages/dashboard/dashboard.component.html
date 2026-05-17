@@ -9,7 +9,7 @@
           <p class="text-white-50">Bienvenido a SafeMind. Tu bienestar es nuestra prioridad.</p>
         </div>
       </div>
-      
+
       <!-- Stats Cards -->
       <div class="row">
         <div class="col-xl-3 col-lg-6">
@@ -49,7 +49,7 @@
               </div>
               <p class="mt-3 mb-0 text-muted text-sm">
                 <span class="text-info mr-2"><i class="ni ni-folder-17"></i></span>
-                <span class="text-nowrap">Historico completo</span>
+                <span class="text-nowrap">Histórico completo</span>
               </p>
             </div>
           </div>
@@ -80,7 +80,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Estado de Animo</h5>
+                  <h5 class="card-title text-uppercase text-muted mb-0">Estado de Ánimo</h5>
                   <span class="h2 font-weight-bold mb-0">{{ stats.estadoAnimo }}</span>
                 </div>
                 <div class="col-auto">
@@ -110,13 +110,12 @@
         <div class="card-header bg-transparent">
           <div class="row align-items-center">
             <div class="col">
-              <h3 class="mb-0">Acciones Rapidas</h3>
+              <h3 class="mb-0">Acciones Rápidas</h3>
             </div>
           </div>
         </div>
         <div class="card-body">
           <div class="row">
-            <!-- Iniciar Chat -->
             <div class="col-md-4 mb-3">
               <a [routerLink]="['/chat']" class="card bg-gradient-success text-white h-100 text-decoration-none">
                 <div class="card-body text-center py-4">
@@ -128,7 +127,6 @@
                 </div>
               </a>
             </div>
-            <!-- Ver Horario -->
             <div class="col-md-4 mb-3">
               <a [routerLink]="['/horario']" class="card bg-gradient-info text-white h-100 text-decoration-none">
                 <div class="card-body text-center py-4">
@@ -140,7 +138,6 @@
                 </div>
               </a>
             </div>
-            <!-- Buscar Profesional -->
             <div class="col-md-4 mb-3">
               <a [routerLink]="['/profesionales']" class="card bg-gradient-purple text-white h-100 text-decoration-none">
                 <div class="card-body text-center py-4">
@@ -156,12 +153,12 @@
         </div>
       </div>
 
-      <!-- Proximas Actividades -->
+      <!-- Próximas Actividades -->
       <div class="card shadow mt-4">
         <div class="card-header border-0">
           <div class="row align-items-center">
             <div class="col">
-              <h3 class="mb-0">Proximas Actividades</h3>
+              <h3 class="mb-0">Próximas Actividades</h3>
             </div>
             <div class="col text-right">
               <a [routerLink]="['/horario']" class="btn btn-sm btn-primary">Ver todo</a>
@@ -187,7 +184,7 @@
                     'badge-primary': actividad.tipo === 'clase',
                     'badge-success': actividad.tipo === 'estudio',
                     'badge-warning': actividad.tipo === 'descanso',
-                    'badge-info': actividad.tipo === 'otro'
+                    'badge-info':    actividad.tipo === 'otro'
                   }">{{ actividad.tipo }}</span>
                 </td>
                 <td>
@@ -200,7 +197,7 @@
             </tbody>
           </table>
           <div class="text-center py-4" *ngIf="proximasActividades.length === 0">
-            <i class="ni ni-calendar-grid-58 text-muted" style="font-size: 2rem;"></i>
+            <i class="ni ni-calendar-grid-58 text-muted" style="font-size:2rem;"></i>
             <p class="text-muted mt-2">No tienes actividades programadas para hoy</p>
             <a [routerLink]="['/horario']" class="btn btn-sm btn-primary">Agregar actividad</a>
           </div>
@@ -208,14 +205,14 @@
       </div>
     </div>
 
-    <!-- Sidebar -->
+    <!-- Sidebar derecho -->
     <div class="col-xl-4">
-      <!-- Tips del dia -->
+      <!-- Tip del día -->
       <div class="card shadow mb-4">
         <div class="card-header bg-transparent">
           <div class="row align-items-center">
             <div class="col">
-              <h3 class="mb-0">Tip del Dia</h3>
+              <h3 class="mb-0">Tip del Día</h3>
             </div>
             <div class="col-auto">
               <i class="ni ni-bulb-61 text-warning"></i>
@@ -241,8 +238,8 @@
         </div>
         <div class="card-body p-0">
           <div class="list-group list-group-flush" *ngIf="sesionesRecientes.length > 0">
-            <a *ngFor="let sesion of sesionesRecientes" 
-               [routerLink]="['/chat']" 
+            <a *ngFor="let sesion of sesionesRecientes"
+               [routerLink]="['/chat']"
                [queryParams]="{sesion: sesion.id}"
                class="list-group-item list-group-item-action">
               <div class="d-flex align-items-center">
@@ -250,57 +247,76 @@
                   <i class="ni ni-single-02 text-white"></i>
                 </div>
                 <div class="flex-fill">
-                  <h5 class="mb-0">{{ sesion.tema || 'Sesion de apoyo' }}</h5>
+                  <h5 class="mb-0">{{ sesion.tema || 'Sesión de apoyo' }}</h5>
                   <small class="text-muted">{{ sesion.created_at | date:'short' }}</small>
                 </div>
                 <span class="badge" [ngClass]="{
-                  'badge-success': sesion.estado === 'activa',
+                  'badge-success':   sesion.estado === 'activa',
                   'badge-secondary': sesion.estado === 'cerrada'
                 }">{{ sesion.estado }}</span>
               </div>
             </a>
           </div>
           <div class="text-center py-4" *ngIf="sesionesRecientes.length === 0">
-            <i class="ni ni-chat-round text-muted" style="font-size: 2rem;"></i>
+            <i class="ni ni-chat-round text-muted" style="font-size:2rem;"></i>
             <p class="text-muted mt-2">No tienes sesiones recientes</p>
-            <a [routerLink]="['/profesionales']" class="btn btn-sm btn-primary">Iniciar una sesion</a>
+            <a [routerLink]="['/profesionales']" class="btn btn-sm btn-primary">Iniciar una sesión</a>
           </div>
         </div>
       </div>
 
-      <!-- Recursos -->
+      <!-- Recursos de Ayuda — links externos verificados -->
       <div class="card shadow mt-4">
         <div class="card-header bg-transparent">
           <h3 class="mb-0">Recursos de Ayuda</h3>
         </div>
         <div class="card-body">
-          <div class="d-flex align-items-center mb-3">
-            <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow mr-3">
+
+          <!-- Línea 106 — Ministerio de Salud Colombia -->
+          <a href="https://www.minsalud.gov.co/salud/publica/SMental/Paginas/linea-106.aspx"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="d-flex align-items-center mb-3 text-decoration-none">
+            <div class="icon icon-shape bg-gradient-danger text-white rounded-circle shadow mr-3">
               <i class="ni ni-headphones"></i>
             </div>
             <div>
-              <h5 class="mb-0">Linea de Crisis</h5>
-              <small class="text-muted">Disponible 24/7</small>
+              <h5 class="mb-0 text-dark">Línea 106 — Crisis</h5>
+              <small class="text-muted">Ministerio de Salud · Disponible 24/7</small>
             </div>
-          </div>
-          <div class="d-flex align-items-center mb-3">
+            <i class="ni ni-bold-right text-muted ml-auto" style="font-size:0.7rem;"></i>
+          </a>
+
+          <!-- OPS — Guías de bienestar mental -->
+          <a href="https://www.paho.org/es/temas/salud-mental"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="d-flex align-items-center mb-3 text-decoration-none">
             <div class="icon icon-shape bg-gradient-success text-white rounded-circle shadow mr-3">
               <i class="ni ni-books"></i>
             </div>
             <div>
-              <h5 class="mb-0">Guias de Bienestar</h5>
-              <small class="text-muted">Articulos y recursos</small>
+              <h5 class="mb-0 text-dark">Guías de Bienestar</h5>
+              <small class="text-muted">OPS · Organización Panamericana de la Salud</small>
             </div>
-          </div>
-          <div class="d-flex align-items-center">
+            <i class="ni ni-bold-right text-muted ml-auto" style="font-size:0.7rem;"></i>
+          </a>
+
+          <!-- YouTube — Ejercicios de relajación guiados -->
+          <a href="https://www.youtube.com/results?search_query=ejercicios+de+relajacion+ansiedad+guiado"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="d-flex align-items-center text-decoration-none">
             <div class="icon icon-shape bg-gradient-warning text-white rounded-circle shadow mr-3">
               <i class="ni ni-spaceship"></i>
             </div>
             <div>
-              <h5 class="mb-0">Ejercicios de Relajacion</h5>
-              <small class="text-muted">Tecnicas practicas</small>
+              <h5 class="mb-0 text-dark">Ejercicios de Relajación</h5>
+              <small class="text-muted">YouTube · Videos guiados gratuitos</small>
             </div>
-          </div>
+            <i class="ni ni-bold-right text-muted ml-auto" style="font-size:0.7rem;"></i>
+          </a>
+
         </div>
       </div>
     </div>

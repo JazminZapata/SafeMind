@@ -30,7 +30,7 @@
           <div class="dropdown-divider"></div>
           <a href="javascript:void(0)" class="dropdown-item" (click)="securityService.logout()">
             <i class="ni ni-user-run"></i>
-            <span>Cerrar sesion</span>
+            <span>Cerrar sesión</span>
           </a>
         </div>
       </li>
@@ -57,8 +57,14 @@
       <!-- User Info -->
       <div class="text-center py-3 border-bottom mb-3" *ngIf="user && user.name">
         <div class="avatar avatar-lg rounded-circle bg-gradient-primary mb-2">
-          <img *ngIf="user.photoURL" [src]="user.photoURL" alt="Foto de perfil" class="rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
-          <i *ngIf="!user.photoURL" class="ni ni-single-02 text-white" style="font-size: 1.5rem;"></i>
+          <img *ngIf="user.foto_url || user.photoURL"
+               [src]="user.foto_url || user.photoURL"
+               alt="Foto de perfil"
+               class="rounded-circle"
+               style="width:100%; height:100%; object-fit:cover;">
+          <i *ngIf="!user.foto_url && !user.photoURL"
+             class="ni ni-single-02 text-white"
+             style="font-size:1.5rem;"></i>
         </div>
         <h5 class="mb-0">{{ user.name }}</h5>
         <small class="text-muted">{{ user.email }}</small>
@@ -76,25 +82,53 @@
 
       <!-- Divider -->
       <hr class="my-3">
-      
-      <!-- Recursos -->
+
+      <!-- Recursos externos verificados -->
       <h6 class="navbar-heading text-muted">Recursos</h6>
       <ul class="navbar-nav mb-md-3">
+
+        <!-- Guías de bienestar → OPS/OMS -->
         <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)">
-            <i class="ni ni-books text-info"></i> Guias de bienestar
+          <a class="nav-link"
+             href="https://www.paho.org/es/temas/salud-mental"
+             target="_blank"
+             rel="noopener noreferrer"
+             ngbTooltip="Organización Panamericana de la Salud"
+             placement="right">
+            <i class="ni ni-books text-info"></i>
+            Guías de bienestar
+            <i class="ni ni-bold-right text-muted ml-1" style="font-size:0.6rem;"></i>
           </a>
         </li>
+
+        <!-- Tips de estudio → Learning Scientists -->
         <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)">
-            <i class="ni ni-bulb-61 text-warning"></i> Tips de estudio
+          <a class="nav-link"
+             href="https://www.learningscientists.org/downloadable-materials"
+             target="_blank"
+             rel="noopener noreferrer"
+             ngbTooltip="The Learning Scientists — técnicas basadas en investigación"
+             placement="right">
+            <i class="ni ni-bulb-61 text-warning"></i>
+            Tips de estudio
+            <i class="ni ni-bold-right text-muted ml-1" style="font-size:0.6rem;"></i>
           </a>
         </li>
+
+        <!-- Meditaciones → Insight Timer (gratuito) -->
         <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)">
-            <i class="ni ni-headphones text-success"></i> Meditaciones
+          <a class="nav-link"
+             href="https://insighttimer.com/es"
+             target="_blank"
+             rel="noopener noreferrer"
+             ngbTooltip="Insight Timer — meditaciones guiadas gratuitas"
+             placement="right">
+            <i class="ni ni-headphones text-success"></i>
+            Meditaciones
+            <i class="ni ni-bold-right text-muted ml-1" style="font-size:0.6rem;"></i>
           </a>
         </li>
+
       </ul>
     </div>
   </div>

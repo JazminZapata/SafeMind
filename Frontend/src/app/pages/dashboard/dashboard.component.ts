@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { SecurityService } from 'src/app/services/security.service';
 import { SesionService } from 'src/app/services/sesion.service';
 import { EstudianteService } from 'src/app/services/estudiante.service';
-import { PersonaService } from 'src/app/services/persona.service';
 import { Sesion } from 'src/app/models/Sesion';
 import { HorarioItem } from 'src/app/models/Estudiante';
 
@@ -27,12 +26,11 @@ export class DashboardComponent implements OnInit {
     actividadesHoy: 0,
     estadoAnimo: 'Bien'
   };
-  
+
   proximasActividades: HorarioItem[] = [];
   sesionesRecientes: Sesion[] = [];
-  
   tipDelDia: string = '';
-  
+
   private tips: string[] = [
     'Recuerda tomar descansos regulares durante tus sesiones de estudio. La tecnica Pomodoro puede ayudarte.',
     'Dormir bien es fundamental para tu rendimiento academico. Intenta mantener un horario de sueno regular.',
@@ -47,72 +45,56 @@ export class DashboardComponent implements OnInit {
   constructor(
     private securityService: SecurityService,
     private sesionService: SesionService,
-    private estudianteService: EstudianteService,
-    private personaService: PersonaService
+    private estudianteService: EstudianteService
   ) { }
 
   ngOnInit() {
     this.loadUserInfo();
     this.loadTipDelDia();
-    this.loadStats();
-    this.loadSesionesRecientes();
-    this.loadProximasActividades();
+    this.loadSesiones();
+    this.loadHorarioHoy();
   }
 
   private loadUserInfo() {
     const user = this.securityService.activeUserSession;
     if (user && user.name) {
-      this.userName = user.name.split(' ')[0]; // Solo el primer nombre
+      this.userName = user.name.split(' ')[0];
     }
   }
 
   private loadTipDelDia() {
     const today = new Date().getDate();
-    const tipIndex = today % this.tips.length;
-    this.tipDelDia = this.tips[tipIndex];
+    this.tipDelDia = this.tips[today % this.tips.length];
   }
 
-  private loadStats() {
-    // Por ahora usamos datos de ejemplo
-    // En produccion, esto vendria del backend
-    this.stats = {
-      sesionesActivas: 1,
-      sesionesTotales: 5,
-      actividadesHoy: 3,
-      estadoAnimo: 'Bien'
-    };
-  }
-
-  private loadSesionesRecientes() {
-    // Intentar cargar sesiones del backend
-    // Por ahora mostramos datos de ejemplo
-    this.sesionesRecientes = [
-      {
-        id: 1,
-        tema: 'Manejo del estres',
-        estado: 'activa',
-        created_at: new Date().toISOString()
+  private loadSesiones() {
+    this.sesionService.list().subscribe({
+      next: (sesiones) => {
+        this.sesionesRecientes = sesiones.slice(0, 5); // últimas 5
+        this.stats.sesionesTotales = sesiones.length;
+        this.stats.sesionesActivas = sesiones.filter(s => s.estado === 'activa').length;
       },
-      {
-        id: 2,
-        tema: 'Organizacion del tiempo',
-        estado: 'cerrada',
-        created_at: new Date(Date.now() - 86400000).toISOString()
-      }
-    ];
+      error: (err) => console.error('Error cargando sesiones:', err)
+    });
   }
 
-  private loadProximasActividades() {
-    // Por ahora mostramos datos de ejemplo
-    const diasSemana = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
-    const hoyIndex = new Date().getDay();
-    const hoy = diasSemana[hoyIndex];
-    
-    // Ejemplo de actividades
-    this.proximasActividades = [
-      { titulo: 'Calculo II', hora: '08:00', tipo: 'clase' },
-      { titulo: 'Estudio grupal', hora: '14:00', tipo: 'estudio' },
-      { titulo: 'Descanso', hora: '16:00', tipo: 'descanso' }
-    ];
+  private loadHorarioHoy() {
+    const user = this.securityService.activeUserSession;
+    if (!user?.id) return;
+
+    this.estudianteService.list().subscribe({
+      next: (estudiantes) => {
+        const estudiante = estudiantes.find(e => e.persona_id === user.id);
+        if (!estudiante?.horario) return;
+
+        const dias = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+        const hoy = dias[new Date().getDay()];
+        const actividadesHoy = estudiante.horario[hoy as keyof typeof estudiante.horario] || [];
+
+        this.proximasActividades = actividadesHoy as HorarioItem[];
+        this.stats.actividadesHoy = actividadesHoy.length;
+      },
+      error: (err) => console.error('Error cargando horario:', err)
+    });
   }
 }

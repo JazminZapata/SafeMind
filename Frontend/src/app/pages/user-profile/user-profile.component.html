@@ -1,17 +1,13 @@
 <!-- Header -->
-<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 400px; background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%);">
-  <!-- Header container -->
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+     style="min-height: 400px; background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%);">
   <div class="container-fluid d-flex align-items-center">
     <div class="row">
       <div class="col-lg-7 col-md-10">
-<<<<<<< HEAD
-        <h1 class="display-2 text-white">Hello Jesse</h1>
-        <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your work and manage your projects or assigned tasks</p>
-        <a href="#!" class="btn btn-info">Edit profile</a>
-=======
-        <h1 class="display-2 text-white">Hola, {{user?.name || 'Usuario'}}</h1>
-        <p class="text-white mt-0 mb-0">Bienvenido a tu perfil de SafeMind. Aqui puedes gestionar tu informacion personal.</p>
->>>>>>> safemind-web-app
+        <h1 class="display-2 text-white">Hola, {{ user?.name || 'Usuario' }}</h1>
+        <p class="text-white mt-0 mb-0">
+          Bienvenido a tu perfil de SafeMind. Aquí puedes gestionar tu información personal.
+        </p>
       </div>
     </div>
   </div>
@@ -19,28 +15,49 @@
 
 <div class="container-fluid mt--7">
   <div class="row">
-    <!-- Card de Perfil -->
+
+    <!-- ── Card de Perfil ─────────────────────────────────────────────── -->
     <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
       <div class="card card-profile shadow">
         <div class="row justify-content-center">
           <div class="col-lg-3 order-lg-2">
             <div class="card-profile-image">
-              <a href="javascript:void(0)">
-                <img 
-                  *ngIf="userPhotoURL"
-                  [src]="userPhotoURL" 
-                  [alt]="user?.name || 'Usuario'"
-                  class="rounded-circle"
-                  style="object-fit: cover; width: 180px; height: 180px;">
-                <div *ngIf="!userPhotoURL" 
+
+              <a href="javascript:void(0)" (click)="triggerFileInput()" title="Cambiar foto de perfil">
+
+                <!-- Spinner mientras sube la foto -->
+                <div *ngIf="isUploadingPhoto"
+                     class="rounded-circle bg-gradient-secondary d-flex align-items-center justify-content-center"
+                     style="width:180px; height:180px;">
+                  <div class="spinner-border text-white" role="status" style="width:2rem; height:2rem;">
+                    <span class="sr-only">Subiendo...</span>
+                  </div>
+                </div>
+
+                <!-- Foto guardada -->
+                <img *ngIf="userPhotoURL && !isUploadingPhoto"
+                     [src]="userPhotoURL"
+                     [alt]="user?.name || 'Usuario'"
+                     class="rounded-circle"
+                     style="object-fit:cover; width:180px; height:180px;">
+
+                <!-- Ícono por defecto -->
+                <div *ngIf="!userPhotoURL && !isUploadingPhoto"
                      class="rounded-circle bg-gradient-primary d-flex align-items-center justify-content-center"
-                     style="width: 180px; height: 180px;">
-                  <i class="ni ni-single-02 text-white" style="font-size: 4rem;"></i>
+                     style="width:180px; height:180px;">
+                  <i class="ni ni-single-02 text-white" style="font-size:4rem;"></i>
                 </div>
               </a>
+
+              <input id="photoInput"
+                     type="file"
+                     accept="image/*"
+                     style="display:none"
+                     (change)="onPhotoSelected($event)">
             </div>
           </div>
         </div>
+
         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
           <div class="d-flex justify-content-between">
             <a [routerLink]="['/chat']" class="btn btn-sm btn-info mr-4">
@@ -51,37 +68,59 @@
             </a>
           </div>
         </div>
+
         <div class="card-body pt-0 pt-md-4">
           <div class="row">
             <div class="col">
+
+              <!-- Estadísticas reales con spinner de carga -->
               <div class="card-profile-stats d-flex justify-content-center mt-md-5">
-                <div>
-                  <span class="heading">{{ estadisticas.sesiones }}</span>
-                  <span class="description">Sesiones</span>
-                </div>
-                <div>
-                  <span class="heading">{{ estadisticas.actividadesCompletadas }}</span>
-                  <span class="description">Actividades</span>
-                </div>
-                <div>
-                  <span class="heading">{{ estadisticas.diasActivo }}</span>
-                  <span class="description">Dias activo</span>
-                </div>
+
+                <ng-container *ngIf="!isLoadingStats">
+                  <div>
+                    <span class="heading">{{ estadisticas.sesiones }}</span>
+                    <span class="description">Sesiones</span>
+                  </div>
+                  <div>
+                    <span class="heading">{{ estadisticas.actividadesCompletadas }}</span>
+                    <span class="description">Actividades</span>
+                  </div>
+                  <div>
+                    <span class="heading">{{ estadisticas.diasActivo }}</span>
+                    <span class="description">Días activo</span>
+                  </div>
+                </ng-container>
+
+                <ng-container *ngIf="isLoadingStats">
+                  <div class="text-center py-2">
+                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                      <span class="sr-only">Cargando...</span>
+                    </div>
+                  </div>
+                </ng-container>
+
               </div>
             </div>
           </div>
+
           <div class="text-center">
-            <h3>
-              {{user?.name || 'Usuario'}}
-            </h3>
+            <h3>{{ user?.name || 'Usuario' }}</h3>
             <div class="h5 font-weight-300">
-              <i class="ni location_pin mr-2"></i>Bucharest, Romania
+              <i class="ni ni-email-83 mr-2"></i>{{ user?.email || '' }}
             </div>
             <div class="h5 mt-2" *ngIf="user?.provider">
               <span class="badge badge-primary">
                 <i class="ni ni-key-25 mr-1"></i>{{ user.provider | titlecase }}
               </span>
             </div>
+
+            <p class="text-muted mt-3 mb-0" style="font-size:0.8rem;">
+              <a href="javascript:void(0)" (click)="triggerFileInput()" class="text-muted">
+                <i class="ni ni-camera-compact mr-1"></i>
+                {{ isUploadingPhoto ? 'Guardando foto...' : 'Haz clic en tu foto para cambiarla' }}
+              </a>
+            </p>
+
             <hr class="my-4" />
             <p class="text-muted">Miembro de SafeMind</p>
           </div>
@@ -99,8 +138,8 @@
               <i class="ni ni-check-bold"></i>
             </div>
             <div>
-              <h5 class="mb-0">Primera sesion</h5>
-              <small class="text-muted">Completaste tu primera sesion</small>
+              <h5 class="mb-0">Primera sesión</h5>
+              <small class="text-muted">Completaste tu primera sesión</small>
             </div>
           </div>
           <div class="d-flex align-items-center mb-3">
@@ -118,14 +157,14 @@
             </div>
             <div>
               <h5 class="mb-0">Constante</h5>
-              <small class="text-muted">7 dias seguidos activo</small>
+              <small class="text-muted">7 días seguidos activo</small>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Formulario de Perfil -->
+    <!-- ── Formulario de Perfil ──────────────────────────────────────── -->
     <div class="col-xl-8 order-xl-1">
       <div class="card bg-secondary shadow">
         <div class="card-header bg-white border-0">
@@ -142,47 +181,45 @@
         </div>
         <div class="card-body">
           <form>
-            <h6 class="heading-small text-muted mb-4">Informacion personal</h6>
+            <h6 class="heading-small text-muted mb-4">Información personal</h6>
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label">Nombre completo</label>
-                    <input 
-                      type="text" 
-                      class="form-control form-control-alternative" 
-                      placeholder="Tu nombre" 
-                      [(ngModel)]="perfil.nombre"
-                      name="nombre">
+                    <input type="text"
+                           class="form-control form-control-alternative"
+                           placeholder="Tu nombre"
+                           [(ngModel)]="perfil.nombre"
+                           name="nombre">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label">Correo electronico</label>
-                    <input 
-                      type="email" 
-                      class="form-control form-control-alternative" 
-                      [value]="user?.email || ''"
-                      readonly>
+                    <label class="form-control-label">Correo electrónico</label>
+                    <input type="email"
+                           class="form-control form-control-alternative"
+                           [value]="user?.email || ''"
+                           readonly>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label">Telefono</label>
-                    <input 
-                      type="tel" 
-                      class="form-control form-control-alternative" 
-                      placeholder="+57 300 123 4567"
-                      [(ngModel)]="perfil.telefono"
-                      name="telefono">
+                    <label class="form-control-label">Teléfono</label>
+                    <input type="tel"
+                           class="form-control form-control-alternative"
+                           placeholder="+57 300 123 4567"
+                           [(ngModel)]="perfil.telefono"
+                           name="telefono">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label">Rol</label>
-                    <select class="form-control form-control-alternative" [(ngModel)]="perfil.rol" name="rol">
+                    <select class="form-control form-control-alternative"
+                            [(ngModel)]="perfil.rol" name="rol">
                       <option value="estudiante">Estudiante</option>
                       <option value="profesional">Profesional</option>
                     </select>
@@ -193,30 +230,27 @@
 
             <hr class="my-4" />
 
-            <!-- Informacion academica -->
-            <h6 class="heading-small text-muted mb-4">Informacion academica</h6>
+            <h6 class="heading-small text-muted mb-4">Información académica</h6>
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label">Institucion</label>
-                    <input 
-                      type="text" 
-                      class="form-control form-control-alternative" 
-                      placeholder="Universidad / Instituto"
-                      [(ngModel)]="perfil.institucion"
-                      name="institucion">
+                    <label class="form-control-label">Institución</label>
+                    <input type="text"
+                           class="form-control form-control-alternative"
+                           placeholder="Universidad / Instituto"
+                           [(ngModel)]="perfil.institucion"
+                           name="institucion">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label">Carrera / Programa</label>
-                    <input 
-                      type="text" 
-                      class="form-control form-control-alternative" 
-                      placeholder="Ingenieria de Sistemas, Psicologia..."
-                      [(ngModel)]="perfil.carrera"
-                      name="carrera">
+                    <input type="text"
+                           class="form-control form-control-alternative"
+                           placeholder="Ingeniería de Sistemas, Psicología..."
+                           [(ngModel)]="perfil.carrera"
+                           name="carrera">
                   </div>
                 </div>
               </div>
@@ -224,17 +258,15 @@
 
             <hr class="my-4" />
 
-            <!-- Sobre mi -->
-            <h6 class="heading-small text-muted mb-4">Sobre mi</h6>
+            <h6 class="heading-small text-muted mb-4">Sobre mí</h6>
             <div class="pl-lg-4">
               <div class="form-group">
-                <label>Cuentanos sobre ti</label>
-                <textarea 
-                  rows="4" 
-                  class="form-control form-control-alternative" 
-                  placeholder="Tus intereses, metas, o cualquier cosa que quieras compartir..."
-                  [(ngModel)]="perfil.sobre_mi"
-                  name="sobre_mi"></textarea>
+                <label>Cuéntanos sobre ti</label>
+                <textarea rows="4"
+                          class="form-control form-control-alternative"
+                          placeholder="Tus intereses, metas, o cualquier cosa que quieras compartir..."
+                          [(ngModel)]="perfil.sobre_mi"
+                          name="sobre_mi"></textarea>
               </div>
             </div>
           </form>
@@ -250,14 +282,14 @@
           <div class="row">
             <div class="col-md-6">
               <div class="custom-control custom-checkbox mb-3">
-                <input type="checkbox" class="custom-control-input" id="notificaciones" 
+                <input type="checkbox" class="custom-control-input" id="notificaciones"
                        [(ngModel)]="preferencias.notificaciones">
                 <label class="custom-control-label" for="notificaciones">
                   Recibir notificaciones de recordatorios
                 </label>
               </div>
               <div class="custom-control custom-checkbox mb-3">
-                <input type="checkbox" class="custom-control-input" id="tips" 
+                <input type="checkbox" class="custom-control-input" id="tips"
                        [(ngModel)]="preferencias.tips">
                 <label class="custom-control-label" for="tips">
                   Recibir tips de bienestar diarios
@@ -266,14 +298,14 @@
             </div>
             <div class="col-md-6">
               <div class="custom-control custom-checkbox mb-3">
-                <input type="checkbox" class="custom-control-input" id="sesionesEmail" 
+                <input type="checkbox" class="custom-control-input" id="sesionesEmail"
                        [(ngModel)]="preferencias.sesionesEmail">
                 <label class="custom-control-label" for="sesionesEmail">
                   Notificaciones de sesiones por email
                 </label>
               </div>
               <div class="custom-control custom-checkbox mb-3">
-                <input type="checkbox" class="custom-control-input" id="perfilPublico" 
+                <input type="checkbox" class="custom-control-input" id="perfilPublico"
                        [(ngModel)]="preferencias.perfilPublico">
                 <label class="custom-control-label" for="perfilPublico">
                   Perfil visible para profesionales
@@ -284,5 +316,6 @@
         </div>
       </div>
     </div>
+
   </div>
 </div>

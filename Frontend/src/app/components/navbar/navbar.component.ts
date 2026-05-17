@@ -1,6 +1,6 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/User';
 import { SecurityService } from 'src/app/services/security.service';
@@ -11,41 +11,52 @@ import { Subscription } from 'rxjs';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
-  public focus;
+export class NavbarComponent implements OnInit, OnDestroy {
+  public focus: boolean;
   public listTitles: any[];
   public location: Location;
-  user: User;
-  subscription:Subscription;
-  constructor(location: Location,  private element: ElementRef, private router: Router, private securityService:SecurityService) {
-    this.location = location;
 
-    //conexion de "backend a frontend" via web socket
-    // this.webSocketService.setNameEvent("OVL94G");
-    // this.webSocketService.callback.subscribe((message) => {
-    //   console.log("Mensaje recibido en el navbar: ", message);
-    // });
-    // //Usamos securityService y es como si llamaramos una api a la cual nos vamos a suscribir, data e sla respuesta a la que llega esa api  y si me suscribi va a devolver la varible global user
-    // this.subscription = this.securityService.getUser().subscribe(data => {
-    //   this.user = data;
-    // })
+  user: User & { foto_url?: string } = null;
+  private subscription: Subscription;
+
+  constructor(
+    location: Location,
+    private element: ElementRef,
+    private router: Router,
+    public securityService: SecurityService
+  ) {
+    this.location = location;
   }
 
   ngOnInit() {
     this.listTitles = ROUTES.filter(listTitle => listTitle);
-  }
-  getTitle(){
-    var titlee = this.location.prepareExternalUrl(this.location.path());
-    if(titlee.charAt(0) === '#'){
-        titlee = titlee.slice( 1 );
-    }
 
-    for(var item = 0; item < this.listTitles.length; item++){
-        if(this.listTitles[item].path === titlee){
-            return this.listTitles[item].title;
-        }
+    this.subscription = this.securityService.getUser().subscribe(data => {
+      this.user = data as any;
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  logout() {
+    this.securityService.logout();
+    this.router.navigate(['/login']);
+  }
+
+  getTitle() {
+    var titlee = this.location.prepareExternalUrl(this.location.path());
+    if (titlee.charAt(0) === '#') {
+      titlee = titlee.slice(1);
+    }
+    for (var item = 0; item < this.listTitles.length; item++) {
+      if (this.listTitles[item].path === titlee) {
+        return this.listTitles[item].title;
+      }
     }
     return 'Dashboard';
   }
-
 }
